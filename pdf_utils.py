@@ -9,7 +9,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.lib.colors import HexColor
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable
-from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.enums import TA_LEFT
 
 
 # ── PDF Reading ───────────────────────────────────────────────────────────────
@@ -58,8 +58,8 @@ def _build_styles(fs: float) -> dict:
         "name": ParagraphStyle(
             "Name",
             fontName="Helvetica-Bold",
-            fontSize=fs + 20,
-            alignment=TA_CENTER,
+            fontSize=fs + 16,
+            leading=fs + 22,
             spaceAfter=2,
             textColor=_ACCENT,
         ),
@@ -67,7 +67,6 @@ def _build_styles(fs: float) -> dict:
             "Contact",
             fontName="Helvetica",
             fontSize=fs - 1,
-            alignment=TA_CENTER,
             spaceAfter=0,
             textColor=_MUTED,
         ),
@@ -77,7 +76,7 @@ def _build_styles(fs: float) -> dict:
             fontSize=fs - 0.5,
             spaceBefore=7,
             spaceAfter=2,
-            textColor=_ACCENT,
+            textColor=_BLUE,
         ),
         "job_header": ParagraphStyle(
             "JobHeader",
@@ -163,7 +162,7 @@ def _build_story(cv_data: dict, st: dict) -> list:
         story.append(Paragraph(contact_line, st["contact"]))
 
     story.append(Spacer(1, 4))
-    story.append(HRFlowable(width="100%", thickness=1.5, color=_ACCENT, spaceAfter=4))
+    story.append(HRFlowable(width="100%", thickness=1, color=_BLUE, spaceAfter=4))
 
     # ── Summary ───────────────────────────────────────────────────────────────
     summary = cv_data.get("summary", "").strip()
