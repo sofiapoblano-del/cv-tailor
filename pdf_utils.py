@@ -58,7 +58,7 @@ def _build_styles(fs: float) -> dict:
         "name": ParagraphStyle(
             "Name",
             fontName="Helvetica-Bold",
-            fontSize=fs + 7,
+            fontSize=fs + 20,
             alignment=TA_CENTER,
             spaceAfter=2,
             textColor=_ACCENT,

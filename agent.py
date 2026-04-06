@@ -71,11 +71,9 @@ class TailorResult(BaseModel):
 # ── Post-processing ───────────────────────────────────────────────────────────
 
 def _clean(text: str) -> str:
-    """Remove em/en dashes and separator hyphens from text."""
-    # Remove em and en dashes entirely (replace with a space, then collapse double spaces)
-    text = text.replace("\u2014", " ").replace("\u2013", " ")
-    # Replace ' - ' used as a separator with a comma+space
-    text = re.sub(r"\s+-\s+", ", ", text)
+    """Remove em/en dashes from text."""
+    # Replace em and en dashes with a comma+space
+    text = text.replace("\u2014", ", ").replace("\u2013", ", ")
     # Collapse any double spaces
     text = re.sub(r"  +", " ", text).strip()
     return text
