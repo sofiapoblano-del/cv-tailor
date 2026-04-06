@@ -110,17 +110,16 @@ def _build_styles(fs: float) -> dict:
         ),
         "company_header": ParagraphStyle(
             "CompanyHeader",
-            fontName="Helvetica-Bold",
+            fontName="Helvetica",
             fontSize=fs,
-            spaceBefore=6,
-            spaceAfter=1,
-            textColor=_ACCENT,
+            spaceBefore=7,
+            spaceAfter=0,
         ),
         "role_title": ParagraphStyle(
             "RoleTitle",
             fontName="Helvetica-Bold",
             fontSize=fs,
-            spaceBefore=4,
+            spaceBefore=2,
             spaceAfter=1,
             leftIndent=0,
         ),
@@ -181,9 +180,13 @@ def _build_story(cv_data: dict, st: dict) -> list:
             dates    = _esc(exp.get("dates", ""))
             location = _esc(exp.get("location", ""))
 
-            # Company header: Company | Location | Dates
-            company_parts = [p for p in [company, location, dates] if p]
-            story.append(Paragraph("  |  ".join(company_parts), st["company_header"]))
+            # Company header: bold lighter-blue name, muted regular location/dates
+            meta = "  |  ".join([p for p in [location, dates] if p])
+            meta_part = f'  <font color="#555555">|  {meta}</font>' if meta else ""
+            story.append(Paragraph(
+                f'<font color="#4A90D9"><b>{company}</b></font>{meta_part}',
+                st["company_header"]
+            ))
 
             roles = exp.get("roles", [])
             multi_role = len(roles) > 1
@@ -191,9 +194,12 @@ def _build_story(cv_data: dict, st: dict) -> list:
                 title      = _esc(role.get("job_title", ""))
                 role_dates = _esc(role.get("dates", ""))
 
-                # Role title: "Job Title | Dates" for multi-role, "Job Title" for single
+                # Role title: bold black title, muted italic dates for multi-role
                 if multi_role and role_dates:
-                    story.append(Paragraph(f"<b>{title}</b>  |  <i>{role_dates}</i>", st["role_title"]))
+                    story.append(Paragraph(
+                        f'<b>{title}</b>  <font color="#555555">|  <i>{role_dates}</i></font>',
+                        st["role_title"]
+                    ))
                 else:
                     story.append(Paragraph(f"<b>{title}</b>", st["role_title"]))
 
